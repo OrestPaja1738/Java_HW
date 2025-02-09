@@ -1,0 +1,167 @@
+OLD CODE FOR CLASS
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Library {
+private ArrayList<Student> students;
+private ArrayList<Academic> academics;
+private ArrayList<Book> book;
+private ArrayList<CD> cd;
+private ArrayList<Magazine> magazine;
+
+    public Library(){
+        students = new ArrayList<>();
+        academics = new ArrayList<>();
+        book = new ArrayList<>();
+        cd = new ArrayList<>();
+        magazine = new ArrayList<>();
+    }
+    public void addStudent(Student s){
+        students.add(s);
+    }
+    public void addAcademic(Academic a){
+        academics.add(a);
+    }
+    public void addBook(Book b){
+        book.add(b);
+    }
+    public void addCd(CD c){
+        cd.add(c);
+    }
+    public void addMagazine(Magazine m){
+        magazine.add(m);
+    }
+    public void removePerson(String id){
+        int option = 0;
+        System.err.println("Enter 1 for Student or 2 for Teacher");
+        Scanner scanner = new Scanner(System.in);
+
+        option = scanner.nextInt();
+        while (true) { 
+            if (option == 1) {
+                boolean status = false;
+                for(int i = 0;i < students.size();i++){
+                    if (students.get(i).getLibraryId().equals(id)) {
+                        students.remove(i);
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    break;
+                }
+            }
+            else if(option == 2){
+                boolean status = false;
+                for(int i = 0;i < academics.size();i++){
+                    if (academics.get(i).getLibraryId().equals(id)) {
+                        academics.remove(i);
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    break;
+                }
+            }
+            else{
+                System.out.println("Enter again! (invalid option)");
+                option = scanner.nextInt();
+            }
+        }
+    }
+    public void removeItem(String serial){
+        int option = 0;
+        System.err.println("Enter 1 for Book or 2 for CD or 3 for Magazine");
+        Scanner scanner = new Scanner(System.in);
+
+        option = scanner.nextInt();
+
+        while (true) { 
+            if (option == 1) {
+                boolean status = false;
+                for(int i = 0;i < book.size();i++){
+                    if (book.get(i).getSerialNumber().equalsIgnoreCase(serial)) {
+                        book.remove(i);
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    break;
+                }
+            }
+            else if(option == 2){
+                boolean status = false;
+                for(int i = 0;i < cd.size();i++){
+                    if (cd.get(i).getSerialNumber().equalsIgnoreCase(serial)) {
+                        cd.remove(i);
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    break;
+                }
+            }
+            else if(option == 3){
+                boolean status = false;
+                for(int i = 0;i < magazine.size();i++){
+                    if (magazine.get(i).getSerialNumber().equalsIgnoreCase(serial)) {
+                        magazine.remove(i);
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    break;
+                }
+            }
+            else{
+                System.out.println("Enter again! (invalid option)");
+                option = scanner.nextInt();
+            }
+        }
+    }
+
+    public void borrowItem(){
+        String id;
+        System.out.println("Enter the id of the person who wants to borrow book");
+        Scanner scanner = new Scanner(System.in); //start with id of x person
+        id = scanner.next();
+        int option;
+        System.out.println("Enter 1 for student and 2 for teacher");
+        option = scanner.nextInt();//scan option for menu
+
+        while (true) {
+            if(option == 1){//student option
+                boolean status = false;
+                for(int i = 0;i < students.size();i++){
+                    if (students.get(i).getLibraryId().equals(id)) {//finding appropriate student who wishes to borrow
+                        status = true;
+                        int option2 = 0;
+                        System.out.println("Enter input 1 for requesting book or 2 for requesting cd");
+                        option2 = scanner.nextInt(); //entering option for menu related to request book or cd for said student
+                        if (option2 == 1) {
+                            //searching for book
+                            String bookName;
+                            System.err.println("Enter the name of book you are interested in");
+                            bookName = scanner.next();//entering the name of the book to be searched
+                            for(int j = 0;j < book.size();j++){
+                                if (book.get(i).getBookName().equalsIgnoreCase(bookName)) {//book found
+                                    students.get(i).setBorrowedItemForStudent(book.get(i));//set book in as a borrowed item of student 
+                                    book.get(j).setBorrowingStatus(true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!status) { //student NOT found
+                    break;
+                }
+            }
+        }
+    }
+}

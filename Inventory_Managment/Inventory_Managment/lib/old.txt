@@ -1,0 +1,230 @@
+old version
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        System.out.println("Start of item menu!");
+        //user has an inventory of products,services and digital assets
+        ArrayList<InventoryItem> userInventory = new ArrayList<>();
+
+        Scanner scanner = new Scanner(System.in);
+        //menu below
+        while (true) { 
+            System.out.println("Menu options as follows : 1. for adding into inventory 2.removing from inventory 3.utilizing special functions 0. exiting menu");
+            System.out.println("Enter menu option!");
+            int menuOption;
+            menuOption = scanner.nextInt();
+
+            if (menuOption == 1) {
+                System.out.println("Select 1. for adding a Product,2. for adding a Service and 3. for adding a Digital Asset");
+                int menuX;
+                menuX = scanner.nextInt();
+
+                switch (menuX) {
+                    case 1:
+                        Product p = createProduct(scanner);
+                        userInventory.add(p);
+                        break;
+                    case 2:
+                        Service s = createService(scanner);
+                        userInventory.add(s);
+                        break;
+                    case 3:
+                        Digital_Asset d = createDigitalAsset(scanner);
+                        userInventory.add(d);
+                        break;
+                    default:
+                        System.out.println("Invalid input");
+                        break;
+                }
+            }
+            else if(menuOption == 2){
+                System.out.println("Enter id of the item inside inventory that you want to remove");
+                int key = scanner.nextInt();
+                if (userInventory.isEmpty()) {
+                    System.out.println("There are no items that can be deleted!");
+                    break;
+                }
+                else{
+                    boolean status = false;
+                    for(int i = 0;i < userInventory.size();i++){
+                        if (userInventory.get(i).getItemId() == key) {
+                            System.out.println("Item found,proceding to delete");
+                            userInventory.remove(i);
+                            status = true;
+                        }
+                    }
+                    if (!status) {
+                        System.out.println("Item not found after search.Try again");
+                        break;
+                    }
+                }
+            }
+            else if(menuOption == 3){
+                System.out.println("Enter 1 for calculated total of item and 2 for display options(not functional by intention)");
+                int menuY;
+                menuY = scanner.nextInt();
+                switch (menuY) {
+                    case 1:
+                        System.out.println("Enter id for the item you want to get calculated total");
+                        int key = scanner.nextInt();
+
+                        System.out.println("Enter 1 for Product 2 for Digital Asset 3 for Service");
+                        int x = scanner.nextInt();
+                        if (x == 1) {
+                            for(int i = 0;i < userInventory.size();i++){
+                                if (userInventory.get(i) instanceof Product && userInventory.get(i).getItemId() == key) {
+                                    Product p = (Product)userInventory.get(i);
+                                    System.out.println("Output: " + p.calculatePrice());
+                                }
+                            }
+                            break;
+                        }
+                        else if(x == 2){
+                            for(int i = 0;i < userInventory.size();i++){
+                                if (userInventory.get(i) instanceof Digital_Asset && userInventory.get(i).getItemId() == key) {
+                                    Digital_Asset d = (Digital_Asset)userInventory.get(i);
+                                    System.out.println("Output: " + d.calculatePrice());
+                                }
+                            }
+                            break;
+                        }
+                        else if(x == 3){
+                            for(int i = 0;i < userInventory.size();i++){
+                                if (userInventory.get(i) instanceof Service && userInventory.get(i).getItemId() == key) {
+                                    Service s = (Service)userInventory.get(i);
+                                    System.out.println("Output: " + s.calculatePrice());
+                                }
+                            }
+                            break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if(menuOption == 0){
+                System.out.println("Exiting menu . . .");
+                break;
+            }
+            else{
+                System.out.println("Incorrect input.Try again");
+            }
+        }
+
+    }
+    public static Product createProduct(Scanner scanner){
+        System.out.println("Enter PRODUCT creation details below");
+        int itemId,stockLevel;
+        String itemName;
+        float basePrice;
+
+        System.out.println("Enter item ID:");
+        itemId = scanner.nextInt();
+        System.out.println("Enter item name:");
+        itemName = scanner.next();
+        System.out.println("Enter base price");
+        basePrice = scanner.nextFloat();
+            while (true) { 
+                if (basePrice < 0) {
+                    System.out.println("Incorrect value try inputting base price again");
+                    basePrice = scanner.nextFloat();
+                }
+                else{
+                    break;
+                }
+            }
+        System.out.println("Enter stock level of product");
+        stockLevel = scanner.nextInt();
+        while (true) { 
+            if (stockLevel <= 1) {
+                System.out.println("Incorrect value try inputting stock level again");
+                stockLevel = scanner.nextInt();
+            }
+            else{
+                break;
+            }
+        }
+
+        Product p = new Product(itemId, itemName, basePrice, stockLevel);
+
+        return p;
+    }
+    public static Service createService(Scanner scanner){
+        System.out.println("Enter Service creation details below");
+        int itemId,serviceDuration;
+        String itemName;
+        float basePrice;
+
+        System.out.println("Enter item ID:");
+        itemId = scanner.nextInt();
+        System.out.println("Enter item name:");
+        itemName = scanner.next();
+        System.out.println("Enter base price");
+        basePrice = scanner.nextFloat();
+        while (true) { 
+            if (basePrice < 0) {
+                System.out.println("Incorrect value try inputting base price again");
+                basePrice = scanner.nextFloat();
+            }
+            else{
+                break;
+            }
+        }
+        System.out.println("Enter service duration of service");
+        serviceDuration = scanner.nextInt();
+        while (true) { 
+            if (serviceDuration <= 1) {
+                System.out.println("Incorrect value try inputting stock level again");
+                serviceDuration = scanner.nextInt();
+            }
+            else{
+                break;
+            }
+        }
+
+        Service s = new Service(itemId, itemName, basePrice, serviceDuration);
+
+        return s;
+    }
+    public static Digital_Asset createDigitalAsset(Scanner scanner){
+        System.out.println("Enter Digital Asset creation details below");
+        int itemId;
+        String itemName;
+        float basePrice,fileSize;
+
+        System.out.println("Enter item ID:");
+        itemId = scanner.nextInt();
+        System.out.println("Enter item name:");
+        itemName = scanner.next();
+        System.out.println("Enter base price");
+        basePrice = scanner.nextFloat();
+
+        while (true) { 
+            if (basePrice < 0) {
+                System.out.println("Incorrect value try inputting base price again");
+                basePrice = scanner.nextFloat();
+            }
+            else{
+                break;
+            }
+        }
+        System.out.println("Enter file size of Digital Asset");
+        fileSize = scanner.nextFloat();
+        while (true) { 
+            if (fileSize <= 0) {
+                System.out.println("Incorrect value try inputting stock level again");
+                fileSize = scanner.nextFloat();
+            }
+            else{
+                break;
+            }
+        }
+        
+        Digital_Asset d = new Digital_Asset(itemId, itemName, basePrice, fileSize);
+
+        return d;
+    }
+}

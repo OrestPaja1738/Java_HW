@@ -1,0 +1,31 @@
+import java.time.LocalDate;
+
+public class Borrowable extends LibraryItem{
+private Person borrower;
+private LocalDate borrowedDate;
+private boolean borrowedStatus;
+
+public Borrowable(String serialNumber,int shelfNum,int shelfIndex,boolean borrowedStatus){
+    super(serialNumber, shelfNum, shelfIndex);
+    this.borrowedStatus = false;
+}
+    public Person getBorrower(){
+        return borrower;
+    }
+    public LocalDate getDateofBorrowing(){
+        return  borrowedDate;
+    }
+    public boolean getBorrowedStatus(){
+        return borrowedStatus;
+    }
+
+    public void setBorrowingStatus(boolean borrowedStatus){
+        this.borrowedStatus = borrowedStatus;
+    }
+    public void setBorrower(Person borrower){
+        this.borrower = borrower;
+    }
+    public void setBorrowingDate(LocalDate borrowedDate){
+        this.borrowedDate = borrowedDate;
+    }
+}

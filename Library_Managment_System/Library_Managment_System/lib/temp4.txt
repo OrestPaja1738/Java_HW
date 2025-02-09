@@ -1,0 +1,38 @@
+public class CD extends Borrowable{
+private String title;
+
+public CD(String serialNumber,int shelfNum,int shelfIndex,boolean borrowedStatus,String title){
+    super(serialNumber, shelfNum, shelfIndex, borrowedStatus);
+    this.title = title;
+}
+
+public String getCdTitle(){
+    return title;
+}
+}
+
+
+
+
+public class Book extends Borrowable{
+private String name;
+private String author;
+private String publisher;
+
+public Book(String serialNumber,int shelfNum,int shelfIndex,boolean borrowedStatus,String name,String author,String publisher){
+    super(serialNumber, shelfNum, shelfIndex, borrowedStatus);
+    this.name = name;
+    this.author = author;
+    this.publisher = publisher;
+}
+
+public String getBookName(){
+    return name;
+}
+public String getBookAuthor(){
+    return author;
+}
+public String getBookPublisher(){
+    return publisher;
+}
+}

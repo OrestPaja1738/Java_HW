@@ -1,0 +1,96 @@
+OLD version
+
+import java.util.Scanner;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        System.out.println("Bank application start:");
+        Scanner scanner = new Scanner(System.in);
+        Bank_Account account = createAccount(scanner);
+
+        while (true) { 
+            System.out.println("Bank application menu:");
+            System.out.println("Enter 1 for depositing or 2 for withdrawing");
+            int menuOption = scanner.nextInt();
+
+            switch (menuOption) {
+                case 1://invoking deposit method of class
+                    double amount = amountValidation(scanner);
+                    account.deposit(amount);
+                    System.out.println("Succesful depositing.Current account balance: " + account.getBalance());
+                    break;
+                case 2://invoking withdrawing method of class
+                    double amount2 = amountWithdrawingValidation(scanner,account);
+                    account.withdrawing(amount2);
+                    break;
+                case 0:
+                    System.out.println("Exiting menu . . .");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid menu option. Enter 1 or 2 or 0!");
+                    break;
+            }
+        }
+    }
+
+    public static Bank_Account createAccount(Scanner scanner){
+        String accountNumber,accountHolder;
+        double balance;
+
+        System.out.println("Set account Number and account holder!");
+        accountNumber = scanner.next();
+        accountHolder = scanner.next();
+
+
+        System.out.println("Set account balance!");
+        balance = scanner.nextDouble();
+        while (true) { 
+            if (balance <= 0) {
+                System.out.println("Invalid input try again");
+                balance = scanner.nextDouble();
+            }
+            else{
+                break;
+            }
+        }
+
+        Bank_Account fnAccount = new Bank_Account(accountNumber, accountHolder, balance);
+
+        return fnAccount;
+    }
+    public static double amountValidation(Scanner scanner){
+        double amount;
+        System.out.println("Enter amount to deposit!");
+
+        while (true) { 
+            amount = scanner.nextDouble();
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Amount input cannot be <= 0 !");
+            }
+            else{
+                break;
+            }
+        }
+        return amount;
+    }
+    public static double amountWithdrawingValidation(Scanner scanner,Bank_Account account)throws InsufficientFundsException{
+        double amount;
+        System.out.println("Enter the amount to withdraw!");
+
+        while (true) { 
+            amount = scanner.nextDouble();
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Amount input cannot be <= 0 !");
+            }
+            else if(amount > account.getBalance()){
+                throw new InsufficientFundsException("Withdrawing amount cannot be greater than your current deposit");
+            }
+            else{
+                break;
+            }
+        }
+
+        return amount;
+    }
+}

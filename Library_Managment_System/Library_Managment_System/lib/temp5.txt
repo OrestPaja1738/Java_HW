@@ -1,0 +1,28 @@
+public class Academic extends Person{
+private Borrowable[] borrowedItem;
+
+    public Academic(String name,String surname,String libraryId){
+        super(name, surname, libraryId);
+        borrowedItem = new Borrowable[3];
+    }
+    public void setBorrowedItemForTeacher(Borrowable borrowedItem,int index){
+        this.borrowedItem[index] = borrowedItem;
+    }
+    public void removeBorrowedItemFromTeacher(int index){
+        this.borrowedItem[index] = null;
+    }
+}
+
+public class Student extends Person{
+private Borrowable borrowedItem;
+
+    public Student(String name,String surname,String libraryId){
+        super(name, surname, libraryId);
+    }
+    public void setBorrowedItemForStudent(Borrowable borrowedItem){
+        this.borrowedItem = borrowedItem;
+    }
+    public void removeBorrowedItemFromStudent(){
+        this.borrowedItem = null;
+    }
+}
